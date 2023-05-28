@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+ environment {
+        NVM_DIR = '/var/lib/jenkins/.nvm'
+ }
+    
     stages {
         stage('SCM Checkout') {
             steps {
@@ -9,17 +13,16 @@ pipeline {
         }
 
         stage('NodeJS Setup') {
-            steps {
+           steps {
                 // Install nvm and set up Node.js
                 script {
                     def nodeVersion = '14.20.0' // Adjust to the desired Node.js version
 
                     sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                    sh "export NVM_DIR=\"$HOME/.nvm\""
                     sh "[ -s \"$NVM_DIR/nvm.sh\" ] && source \"$NVM_DIR/nvm.sh\" && nvm install $nodeVersion"
                     sh "[ -s \"$NVM_DIR/nvm.sh\" ] && source \"$NVM_DIR/nvm.sh\" && nvm use $nodeVersion"
                 }
-            }
+           }
         }
 
         stage('Build') {
