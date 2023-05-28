@@ -8,7 +8,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Node Build') {
             steps {
                 script {
                     // Set PATH environment variable
@@ -25,7 +25,11 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            sh "docker build -t anandasaisoorisetty/webappanand:ANAND-PROJECT-${BUILD_NUMBER} ."
+            steps {
+                script {
+                    sh "docker build -t anandasaisoorisetty/webappanand:ANAND-PROJECT-${BUILD_NUMBER} ."
+                }
+            }
         }
     }
 }
