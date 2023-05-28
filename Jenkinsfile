@@ -1,14 +1,14 @@
 pipeline {
     agent any
-    def buildNumber = BUILD_NUMBER
+
     stages {
-        stage('SCM CheckOut') {
+        stage('SCM Checkout') {
             steps {
-                git url: 'https://github.com/anandasaisoorisetty/webappanand.git',branch: 'main'
+                git url: 'https://github.com/anandasaisoorisetty/webappanand.git', branch: 'main'
             }
         }
 
-        stage('Build') {
+        stage('NPM Build') {
             steps {
                 // Install Node.js and npm
                 tool 'NodeJS'
@@ -19,8 +19,7 @@ pipeline {
             }
         }
 
-
+        // Add additional stages as needed (e.g., test, deploy, etc.)
     }
 
-   
 }
