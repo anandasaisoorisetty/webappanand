@@ -8,17 +8,22 @@ pipeline {
             }
         }
 
-        stage('NPM Build') {
+        stage('NodeJS Setup') {
             steps {
-                // Install nvm
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'export NVM_DIR="$HOME/.nvm"'
-                sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
+                // Install nvm and set up Node.js
+                script {
+                    def nodeVersion = '14.20.0' // Adjust to the desired Node.js version
 
-                // Install required Node.js version
-                sh 'nvm install 14.20.0' // Adjust to the desired Node.js version
-                sh 'nvm use 14.20.0'
-                
+                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
+                    sh "export NVM_DIR=\"$HOME/.nvm\""
+                    sh "[ -s \"$NVM_DIR/nvm.sh\" ] && source \"$NVM_DIR/nvm.sh\" && nvm install $nodeVersion"
+                    sh "[ -s \"$NVM_DIR/nvm.sh\" ] && source \"$NVM_DIR/nvm.sh\" && nvm use $nodeVersion"
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
                 // Install project dependencies
                 sh 'npm install'
 
@@ -26,8 +31,5 @@ pipeline {
                 sh 'npm run build'
             }
         }
-
-        // Add additional stages as needed (e.g., test, deploy, etc.)
     }
-
 }
