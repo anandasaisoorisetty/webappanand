@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-env.PATH = "/usr/local/bin:${env.PATH}"
-
-    
     stages {
         stage('SCM Checkout') {
             steps {
@@ -13,12 +10,17 @@ env.PATH = "/usr/local/bin:${env.PATH}"
 
         stage('Build') {
             steps {
-                // Install Node.js and npm
-                tool 'NodeJS'
-                sh 'npm install'
+                script {
+                    // Set PATH environment variable
+                    env.PATH = "/usr/local/bin:${env.PATH}"
 
-                // Build Angular app
-                sh 'npm run build'
+                    // Install Node.js and npm
+                    tool 'NodeJS'
+                    sh 'npm install'
+
+                    // Build Angular app
+                    sh 'npm run build'
+                }
             }
         }
     }
