@@ -1,9 +1,8 @@
 pipeline {
     agent any
 
- environment {
-        NVM_DIR = '/var/lib/jenkins/.nvm'
- }
+env.PATH = "/usr/local/bin:${env.PATH}"
+
     
     stages {
         stage('SCM Checkout') {
