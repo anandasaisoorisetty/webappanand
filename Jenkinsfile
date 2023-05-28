@@ -12,22 +12,10 @@ pipeline {
             }
         }
 
-        stage('NodeJS Setup') {
-           steps {
-                // Install nvm and set up Node.js
-                script {
-                    def nodeVersion = '14.20.0' // Adjust to the desired Node.js version
-
-                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                    sh "[ -s \"$NVM_DIR/nvm.sh\" ] && source \"$NVM_DIR/nvm.sh\" && nvm install $nodeVersion"
-                    sh "[ -s \"$NVM_DIR/nvm.sh\" ] && source \"$NVM_DIR/nvm.sh\" && nvm use $nodeVersion"
-                }
-           }
-        }
-
         stage('Build') {
             steps {
-                // Install project dependencies
+                // Install Node.js and npm
+                tool 'NodeJS'
                 sh 'npm install'
 
                 // Build Angular app
