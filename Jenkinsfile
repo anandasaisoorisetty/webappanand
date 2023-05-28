@@ -33,11 +33,12 @@ pipeline {
         }
 
         stage('Docker Login and Push Image in Docker Hub') {
-            withCredentials([string(credentialsId: 'Docker_Hub_PWD', variable: 'Docker_Hub_PWD')]) {
-                sh "docker login -u anandasaisoorisetty -p ${Docker_Hub_PWD}"
+            steps {
+                withCredentials([string(credentialsId: 'Docker_Hub_PWD', variable: 'Docker_Hub_PWD')]) {
+                    sh "docker login -u anandasaisoorisetty -p ${Docker_Hub_PWD}"
+                }
+                sh "docker push  anandasaisoorisetty/java-web-app-docker:ANAND-PROJECT-${BUILD_NUMBER} "
             }
-            sh "docker push  anandasaisoorisetty/java-web-app-docker:ANAND-PROJECT-${BUILD_NUMBER} "
         }
-
     }
 }
