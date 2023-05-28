@@ -13,7 +13,7 @@ pipeline {
                 // Install nvm
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
                 sh 'export NVM_DIR="$HOME/.nvm"'
-                 sh ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" '
+                sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
 
                 // Install required Node.js version
                 sh 'nvm install 14.20.0' // Adjust to the desired Node.js version
