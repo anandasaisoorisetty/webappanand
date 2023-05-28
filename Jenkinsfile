@@ -23,5 +23,9 @@ pipeline {
                 }
             }
         }
+
+        stage('Build Docker Image') {
+            sh "docker build -t anandasaisoorisetty/webappanand:ANAND-PROJECT-${BUILD_NUMBER} ."
+        }
     }
 }
