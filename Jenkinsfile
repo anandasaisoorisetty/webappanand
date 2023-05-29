@@ -32,9 +32,10 @@ pipeline {
             steps {
                 script {
                     // Set the path to the Chrome binary for Unit Testing
-                    env.CHROME_BIN = '/usr/bin/google-chrome'
+                    sh 'export CHROME_BIN="/usr/bin/google-chrome-stable"'
+
                     // Run unit tests
-                    sh 'npm run test'
+                    sh 'npm run test --browsers=ChromeHeadlessNoSandbox'
                 }
             }
         }
