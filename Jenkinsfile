@@ -17,6 +17,8 @@ pipeline {
                     sh 'npm install puppeteer --save-dev'
                     sh 'npm install sonar-scanner --save-dev'
                     sh 'npm install karma-chrome-launcher karma-puppeteer-launcher --save-dev'
+                    sh 'npm install karma-coverage-istanbul-reporter --save-dev'
+
                 }
             }
         }

@@ -4,7 +4,11 @@ module.exports = function (config) {
         plugins: [
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
-            require('@angular/cli/plugins/karma')
+            require('@angular/cli/plugins/karma'),
+            require('karma-jasmine'),
+            require('karma-chrome-launcher'),
+            require('@angular/cli/plugins/karma'),
+            require('karma-coverage-istanbul-reporter')
         ],
         files: [
             { pattern: './src/test.ts', watched: false }
