@@ -40,5 +40,17 @@ pipeline {
                 sh "docker push  anandasaisoorisetty/webappanand:ANAND-PROJECT-${BUILD_NUMBER} "
             }
         }
+
+        stage('EKS Deploy') {
+            steps {
+                    sh '''
+       aws eks update-kubeconfig --name webappanand-kube --region us-east-1
+       sed "s/buildNumber/${BUILD_NUMBER}/g" deploy.yml > deploy-new.yml
+       kubectl apply -f deploy-new.yml
+       kubectl apply -f svc.yml
+
+         '''
+            }
+        }
     }
 }
