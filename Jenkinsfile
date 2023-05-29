@@ -14,6 +14,7 @@ pipeline {
                     // Install Node.js and npm
                     tool 'NodeJS'
                     sh 'npm install'
+                    sh 'npm install puppeteer --save-dev'
                     sh 'npm install sonar-scanner --save-dev'
                 }
             }
@@ -34,8 +35,8 @@ pipeline {
                     // Set the path to the Chrome binary for Unit Testing
                     sh 'export CHROME_BIN="/usr/bin/google-chrome-stable"'
 
-                    // Run unit tests
-                    sh 'npm run test --browsers=ChromeHeadlessNoSandbox'
+                     // Run unit tests with Puppeteer
+                    sh 'npm run test:puppeteer'
                 }
             }
         }
