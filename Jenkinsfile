@@ -31,6 +31,8 @@ pipeline {
         stage('Unit Testing') {
             steps {
                 script {
+                    // Set the path to the Chrome binary for Unit Testing
+                    env.CHROME_BIN = '/path/to/chrome'
                     // Run unit tests
                     sh 'npm run test'
                 }
