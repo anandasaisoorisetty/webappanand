@@ -5,7 +5,6 @@ pipeline {
     }
 
     stages {
-        
         stage('Node Build') {
             steps {
                 script {
