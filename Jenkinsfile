@@ -3,20 +3,9 @@ pipeline {
     triggers {
         pollSCM '* * * * *'
     }
-    
-    stages {
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    sh 'npm install sonar-scanner --save-dev'
-                    /* groovylint-disable-next-line NoDef, VariableTypeRequired */
-                    def sonarScanner = 'node_modules/sonar-scanner/bin/sonar-scanner'
-                    sh "${sonarScanner}"
-                    sh 'npm run sonar'
-                }
-            }
-        }
 
+    stages {
+        
         stage('Node Build') {
             steps {
                 script {
@@ -29,6 +18,18 @@ pipeline {
 
                     // Build Angular app
                     sh 'npm run build'
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    sh 'npm install sonar-scanner --save-dev'
+                    /* groovylint-disable-next-line NoDef, VariableTypeRequired */
+                    def sonarScanner = 'node_modules/sonar-scanner/bin/sonar-scanner'
+                    sh "${sonarScanner}"
+                    sh 'npm run sonar'
                 }
             }
         }
