@@ -24,7 +24,7 @@ spec:
       containers:
         - name: nginx
 
-          image: docker pull anandasaisoorisetty/webappanand:ANAND-PROJECT-buildNumber
+          image: anandasaisoorisetty/webappanand:ANAND-PROJECT-buildNumber
 
           ports:
             - containerPort: 80
