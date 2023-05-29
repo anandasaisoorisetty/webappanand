@@ -3,7 +3,7 @@ pipeline {
     triggers {
         pollSCM '* * * * *'
     }
-
+    stages {
         stage('Node Build') {
             steps {
                 script {
@@ -48,4 +48,5 @@ pipeline {
          '''
             }
         }
+    }
 }
