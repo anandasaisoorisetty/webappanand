@@ -41,6 +41,18 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    sh 'npm install sonar-scanner --save-dev'
+                    /* groovylint-disable-next-line NoDef, VariableTypeRequired */
+                    def sonarScanner = 'node_modules/sonar-scanner/bin/sonar-scanner'
+                    sh "${sonarScanner}"
+                    sh 'npm run sonar'
+                }
+            }
+        }
+
         stage('Docker Login and Push Image in Docker Hub') {
             steps {
                 withCredentials([string(credentialsId: 'Docker_Hub_PWD', variable: 'Docker_Hub_PWD')]) {
