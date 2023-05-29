@@ -8,10 +8,11 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    npm install sonar-scanner --save-dev 
-                    def sonarScanner = "node_modules/sonar-scanner/bin/sonar-scanner"
+                    sh 'npm install sonar-scanner --save-dev'
+                    /* groovylint-disable-next-line NoDef, VariableTypeRequired */
+                    def sonarScanner = 'node_modules/sonar-scanner/bin/sonar-scanner'
                     sh "${sonarScanner}"
-                    npm run sonar
+                    sh 'npm run sonar'
                 }
             }
         }
@@ -49,15 +50,15 @@ pipeline {
         //     }
         // }
 
-        // stage('EKS Deploy') {
-        //     steps {
-        //         sh '''
-        //         aws eks update-kubeconfig --name webappanand-kube --region us-east-1
-        //         sed "s/buildNumber/${BUILD_NUMBER}/g" deploy.yml > deploy-new.yml
-        //         kubectl apply -f deploy-new.yml
-        //         kubectl apply -f svc.yml
-        //         '''
-        //     }
-        // }
+    // stage('EKS Deploy') {
+    //     steps {
+    //         sh '''
+    //         aws eks update-kubeconfig --name webappanand-kube --region us-east-1
+    //         sed "s/buildNumber/${BUILD_NUMBER}/g" deploy.yml > deploy-new.yml
+    //         kubectl apply -f deploy-new.yml
+    //         kubectl apply -f svc.yml
+    //         '''
+    //     }
+    // }
     }
 }
