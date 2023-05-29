@@ -39,7 +39,7 @@ pipeline {
                     sh 'export CHROME_BIN="/usr/bin/google-chrome-stable"'
 
                      // Run unit tests with Puppeteer
-                    sh 'npm run test:puppeteer'
+                    sh 'npm run test'
                 }
             }
         }
