@@ -7,7 +7,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                "scripts": {
+                script {
                  "sonar":  "node_modules/sonar-scanner/bin/sonar-scanner",
                  npm run sonar;
                 }
