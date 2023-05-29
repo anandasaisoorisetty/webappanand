@@ -8,7 +8,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    npm 
+                    npm i sonar-scanner --save-dev 
                     def sonarScanner = "node_modules/sonar-scanner/bin/sonar-scanner"
                     sh "${sonarScanner}"
                     npm run sonar
