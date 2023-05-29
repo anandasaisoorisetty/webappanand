@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('SonarQube Analysis after Docker Build') {
             steps {
                 script {
                     sh 'npm install sonar-scanner --save-dev'
