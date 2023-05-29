@@ -1,12 +1,8 @@
 pipeline {
     agent any
-
-    stages {
-        stage('SCM Checkout') {
-            steps {
-                git url: 'https://github.com/anandasaisoorisetty/webappanand.git', branch: 'main'
-            }
-        }
+    triggers {
+        pollSCM '* * * * *'
+    }
 
         stage('Node Build') {
             steps {
