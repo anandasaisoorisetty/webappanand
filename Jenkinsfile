@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     // Set the path to the Chrome binary for Unit Testing
-                    sh 'export CHROME_BIN="/usr/bin/google-chrome-stable"'
+                    sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
 
                      // Run unit tests with Puppeteer
                     sh 'npm run test'
