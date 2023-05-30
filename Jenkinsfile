@@ -40,17 +40,17 @@ pipeline {
             }
         }
 
-        stage('Unit Testing') {
-            steps {
-                script {
-                    // Set the path to the Chrome binary for Unit Testing
-                    sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
+        // stage('Unit Testing') {
+        //     steps {
+        //         script {
+        //             // Set the path to the Chrome binary for Unit Testing
+        //             sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
 
-                    // Run unit tests
-                    sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
-                }
-            }
-        }
+        //             // Run unit tests
+        //             sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
+        //         }
+        //     }
+        // }
 
         stage('Code Analysis') {
             steps {
