@@ -109,14 +109,14 @@ pipeline {
                 '''
             }
         }
+    }
+}
 
-        post {
+post {
             success {
                 emailext subject: 'Pipeline Success Report',
                 body: 'The Jenkins pipeline for WebAppAnand has completed successfully.',
                 recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                 to: 'asoorisetty@gmail.com'
             }
-        }
-    }
 }
