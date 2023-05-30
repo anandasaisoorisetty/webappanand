@@ -38,17 +38,17 @@ pipeline {
             }
         }
 
-        // stage('Unit Testing') {
-        //     steps {
-        //         script {
-        //             // Set the path to the Chrome binary for Unit Testing
-        //             sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
+        stage('Unit Testing') {
+            steps {
+                script {
+                    // Set the path to the Chrome binary for Unit Testing
+                    sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
 
-        //             // Run unit tests
-        //             sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
-        //         }
-        //     }
-        // }
+                    // Run unit tests
+                    sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
+                }
+            }
+        }
 
         stage('Code Analysis') {
             steps {
@@ -112,11 +112,13 @@ pipeline {
     }
 
     post {
-            success {
-                emailext subject: 'Pipeline Success Report',
-                body: 'The Jenkins pipeline for WebAppAnand has completed successfully.',
-                recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                to: 'asoorisetty@gmail.com'
+        always {
+            script {
+                // Send email report
+                emailext body: "Pipeline execution status: ${currentBuild.result}",
+                         subject: "Pipeline Report - ${currentBuild.result}",
+                         to: 'asoorisetty@gmail.com'
             }
+        }
     }
 }
