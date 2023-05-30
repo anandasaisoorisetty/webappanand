@@ -23,6 +23,7 @@ pipeline {
                     // Install Node.js and npm
                     tool 'NodeJS'
                     sh 'npm install'
+                    sh 'npm install @angular/cli'
                     sh 'npm install sonar-scanner --save-dev'
                 }
             }
