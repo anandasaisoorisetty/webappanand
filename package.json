@@ -8,6 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "package": "ng package",
     "test:puppeteer": "ng test --browsers=Puppeteer",
     "sonar": "node_modules/sonar-scanner/bin/sonar-scanner"
   },
