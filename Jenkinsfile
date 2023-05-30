@@ -1,10 +1,19 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM '* * * * *'
-    }
 
     stages {
+        stage('Cleanup WorkSpace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout from SCM') {
+            steps {
+                git url: 'https://github.com/anandasaisoorisetty/webappanand.git', branch: 'main'
+            }
+        }
+
         stage('Installing Angular dependencies') {
             steps {
                 script {
@@ -18,7 +27,6 @@ pipeline {
                     sh 'npm install sonar-scanner --save-dev'
                     sh 'npm install karma-chrome-launcher karma-puppeteer-launcher --save-dev'
                     sh 'npm install karma-coverage-istanbul-reporter --save-dev'
-
                 }
             }
         }
@@ -38,7 +46,7 @@ pipeline {
                     // Set the path to the Chrome binary for Unit Testing
                     sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
 
-                     // Run unit tests 
+                    // Run unit tests
                     sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
                 }
             }
