@@ -43,10 +43,10 @@ pipeline {
             steps {
                 script {
                     // Set the path to the Chrome binary for Unit Testing
-                    // sh 'export CHROME_BIN=/path/to/chrome-binary '
+                    sh 'export CHROME_BIN=/usr/bin/google-chrome '
 
                     // Run unit tests
-                    sh 'npm run test -- --karma-config=karma.conf.puppeteer.js --browsers=Puppeteer'
+                    sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
                 }
             }
         }

@@ -9,7 +9,6 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --no-watch --no-progress",
     "package": "ng build --configuration=production",
-    "test:puppeteer": "ng test --browsers=Puppeteer",
     "sonar": "node_modules/sonar-scanner/bin/sonar-scanner"
   },
   "private": true,
