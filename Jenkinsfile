@@ -25,6 +25,7 @@ pipeline {
                     sh 'npm install'
                     sh 'npm install @angular/cli'
                     sh 'npm install sonar-scanner --save-dev'
+                    sh 'npm install puppeteer --save-dev'
                 }
             }
         }
@@ -45,7 +46,7 @@ pipeline {
                     sh 'export CHROME_BIN=/path/to/chrome-binary '
 
                     // Run unit tests
-                    sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
+                    sh 'npm run test --browsers ChromeHeadlessNoSandbox --karma-config karma.conf.puppeteer.js'
                 }
             }
         }
