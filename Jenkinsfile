@@ -46,7 +46,7 @@ pipeline {
                     sh 'export CHROME_BIN=/path/to/chrome-binary '
 
                     // Run unit tests
-                    sh 'npm run test --browsers ChromeHeadlessNoSandbox --karma-config karma.conf.puppeteer.js'
+                    sh 'npm run test -- --browsers=ChromeHeadless --karma-config karma.conf.puppeteer.js'
                 }
             }
         }
