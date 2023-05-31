@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
                     // Set the path to the Chrome binary for Unit Testing
-                    sh 'export CHROME_BIN="/usr/bin/chromium-browser"'
+                    sh 'export CHROME_BIN=/path/to/chrome-binary '
 
                     // Run unit tests
                     sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
