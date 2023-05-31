@@ -26,6 +26,7 @@ module.exports = function (config) {
                 flags: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
+                    '--disable-gpu',
                     '--disable-dev-shm-usage'
                 ],
                 debug: false
