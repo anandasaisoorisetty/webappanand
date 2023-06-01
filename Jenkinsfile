@@ -21,7 +21,7 @@ pipeline {
                     env.PATH = "/usr/local/bin:${env.PATH}"
 
                     // Install Node.js and npm
-                    tool 'NodeJS'
+                    // tool 'NodeJS'
                     sh 'npm install'
                     sh 'npm install @angular/cli'
                     sh 'npm install sonar-scanner --save-dev'
