@@ -80,17 +80,6 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis after Docker Build') {
-            steps {
-                script {
-                    // Perform SonarQube analysis after Docker image is built
-                    def sonarScanner = 'node_modules/sonar-scanner/bin/sonar-scanner'
-                    sh "${sonarScanner}"
-                    sh 'npm run sonar'
-                }
-            }
-        }
-
         stage('Docker Login and Push Image to Docker Hub') {
             steps {
                 withCredentials([string(credentialsId: 'Docker_Hub_PWD', variable: 'Docker_Hub_PWD')]) {
