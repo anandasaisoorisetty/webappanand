@@ -83,7 +83,7 @@ pipeline {
         // stage('Image Scan') {
         //     steps {
         //         sh '''
-        //             sed "s/BUILD_NUMBER/$1/g" image_scan.sh > image_scan-new.sh
+        //             sed "s/buildNumber/$1/g" image_scan.sh > image_scan-new.sh
         //             chmod +x image_scan-new.sh
         //             bash image_scan-new.sh
 	      //         '''
