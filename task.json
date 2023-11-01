@@ -1,0 +1,32 @@
+{
+    "containerDefinitions": [ 
+        { 
+            "essential": true,
+            "image": "anandasaisoorisetty/webappanand:ANAND-PROJECT-buildNumber",
+            "logConfiguration": { 
+                "logDriver": "awslogs",
+                "options": { 
+                    "awslogs-group" : "/ecs/demo-java",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "name": "tomcat-container",
+            "portMappings": [ 
+                { 
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ]
+        }
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::771070158678:role/ECS-TASKEXECUTIONROLE",
+    "family": "demo-new",
+    "memory": "1024",
+    "requiresCompatibilities": [ 
+        "FARGATE" 
+    ]
+}
