@@ -1,6 +1,6 @@
 #!/bin/bash
 
-image_name="anandasaisoorisetty/webappanand:ANAND-PROJECT-${BUILD_NUMBER}"
+image_name="anandasaisoorisetty/webappanand:ANAND-PROJECT-buildNumber"
 arn="arn:aws:sns:us-east-1:351836203514:sample"
 trivy_output=$(trivy $image_name)
 
