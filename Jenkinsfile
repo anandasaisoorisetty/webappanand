@@ -80,7 +80,21 @@ pipeline {
             }
         }
 
+        // stage('Image Scan') {
+        //     steps {
+        //         sh '''
+        //             sed "s/BUILD_NUMBER/$1/g" image_scan.sh > image_scan-new.sh
+        //             chmod +x image_scan-new.sh
+        //             bash image_scan-new.sh
+	      //         '''
+        // }  
+
         stage('Docker Login and Push Image to Docker Hub') {
+             when {
+                expression {
+                    currentBuild.resultIsBetterOrEqualTo('SUCCESS') // Only execute if the build result is SUCCESS
+                }
+            }
             steps {
                 withCredentials([string(credentialsId: 'Docker_Hub_PWD', variable: 'Docker_Hub_PWD')]) {
                     sh "docker login -u anandasaisoorisetty -p ${Docker_Hub_PWD}"
@@ -99,6 +113,17 @@ pipeline {
                 '''
             }
         }
+
+//        stage('ECS Deploy') {
+//            steps {
+//                 sh '''
+//                 chmod +x changebuildnumber.sh
+//               ./changebuildnumber.sh $BUILD_NUMBER
+//	             sh -x ecs-auto.sh
+//                '''
+//            }    
+//        }
+      
     }
 
     post {
