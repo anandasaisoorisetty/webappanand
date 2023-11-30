@@ -30,6 +30,15 @@ pipeline {
             }
         }
 
+      stage('Code Analysis') {
+            steps {
+                script {
+                    // Perform code analysis using SonarQube
+                      sh './sonar_analysis.sh'
+                }
+            }
+        }
+      
         stage('Build') {
             steps {
                 script {
@@ -47,17 +56,6 @@ pipeline {
 
                     // Run unit tests
                     sh 'npm run test -- --browsers ChromeHeadlessNoSandbox'
-                }
-            }
-        }
-
-        stage('Code Analysis') {
-            steps {
-                script {
-                    // Perform code analysis using SonarQube
-                    def sonarScanner = 'node_modules/sonar-scanner/bin/sonar-scanner'
-                    sh "${sonarScanner}"
-                    sh 'npm run sonar'
                 }
             }
         }
