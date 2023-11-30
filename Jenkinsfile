@@ -30,15 +30,15 @@ pipeline {
             }
         }
 
-      stage('Code Analysis') {
+        stage('Code Analysis') {
             steps {
                 script {
                     // Perform code analysis using SonarQube
-                      sh './sonar_analysis.sh'
+                    sh './sonar_analysis.sh'
                 }
             }
         }
-      
+
         stage('Build') {
             steps {
                 script {
@@ -78,17 +78,21 @@ pipeline {
             }
         }
 
-        // stage('Image Scan') {
-        //     steps {
-        //         sh '''
-        //             sed "s/buildNumber/$1/g" image_scan.sh > image_scan-new.sh
-        //             chmod +x image_scan-new.sh
-        //             bash image_scan-new.sh
-	      //         '''
-        // }  
+        // Uncomment the following stage if you want to include Image Scan
+        /*
+        stage('Image Scan') {
+            steps {
+                sh '''
+                    sed "s/buildNumber/$1/g" image_scan.sh > image_scan-new.sh
+                    chmod +x image_scan-new.sh
+                    bash image_scan-new.sh
+                '''
+            }
+        }
+        */
 
         stage('Docker Login and Push Image to Docker Hub') {
-             when {
+            when {
                 expression {
                     currentBuild.resultIsBetterOrEqualTo('SUCCESS') // Only execute if the build result is SUCCESS
                 }
@@ -112,16 +116,18 @@ pipeline {
             }
         }
 
-//        stage('ECS Deploy') {
-//            steps {
-//                 sh '''
-//                 chmod +x changebuildnumber.sh
-//               ./changebuildnumber.sh $BUILD_NUMBER
-//	             sh -x ecs-auto.sh
-//                '''
-//            }    
-//        }
-      
+        // Uncomment the following stage if you want to include ECS Deploy
+        /*
+        stage('ECS Deploy') {
+            steps {
+                sh '''
+                    chmod +x changebuildnumber.sh
+                    ./changebuildnumber.sh $BUILD_NUMBER
+                    sh -x ecs-auto.sh
+                '''
+            }
+        }
+        */
     }
 
     post {
