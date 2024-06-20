@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Set the AWS CLI path according to your installation
-        AWS_CLI_PATH = 'C:\\Program Files\\Amazon\\AWSCLIV2'
+        AWS_CLI_PATH = 'C:\\Program Files\\Amazon\\AWSCLIV2\\'
         PATH = "${AWS_CLI_PATH};${env.PATH}"
     }
 
