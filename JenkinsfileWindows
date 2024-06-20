@@ -11,7 +11,6 @@ pipeline {
         stage('Installing Angular dependencies') {
             steps {
                 script {
-
                     // Install Node.js and npm dependencies
                     powershell '''
                         npm install
@@ -51,8 +50,8 @@ pipeline {
         stage('ECS Deploy') {
             steps {
                 powershell '''
-                    .\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
-                    .\ecs-auto.ps1
+                    .\\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
+                    .\\ecs-auto.ps1
                 '''
             }
         }
