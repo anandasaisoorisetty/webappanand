@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     stages {
-       
-
         stage('Checkout from SCM') {
             steps {
                 git url: 'https://github.com/anandasaisoorisetty/webappanand.git', branch: 'main'
@@ -13,16 +11,11 @@ pipeline {
         stage('Installing Angular dependencies') {
             steps {
                 script {
-                    // Set PATH environment variable
-                    // env.PATH = "C:\\Program Files\\nodejs;${env.PATH}"
 
-                    // Install Node.js and npm
-                    // tool 'NodeJS'
+                    // Install Node.js and npm dependencies
                     powershell '''
                         npm install
                         npm install @angular/cli
-                        // npm install sonar-scanner --save-dev
-                        // npm install puppeteer --save-dev
                     '''
                 }
             }
@@ -37,7 +30,6 @@ pipeline {
             }
         }
 
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -46,7 +38,6 @@ pipeline {
                 }
             }
         }
-
 
         stage('Docker Login and Push Image to Docker Hub') {
             steps {
@@ -57,16 +48,13 @@ pipeline {
             }
         }
 
-
         stage('ECS Deploy') {
             steps {
                 powershell '''
-                   .\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
-                    ./ecs-auto.ps1
+                    .\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
+                    .\ecs-auto.ps1
                 '''
             }
         }
-
     }
-
 }
