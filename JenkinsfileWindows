@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Set the AWS CLI path according to your installation
+        AWS_CLI_PATH = 'C:\\Program Files\\Amazon\\AWSCLIV2'
+        PATH = "${AWS_CLI_PATH};${env.PATH}"
+    }
+
     stages {
         stage('Checkout from SCM') {
             steps {
@@ -33,6 +39,9 @@ pipeline {
                     credentialsId: 'AWS'
                 ]]) {
                     script {
+                        // Ensure AWS CLI is in PATH
+                        env.PATH = "${env.AWS_CLI_PATH};${env.PATH}"
+
                         // Execute deployment scripts with AWS CLI
                         powershell '''
                             .\\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
