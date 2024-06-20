@@ -3,6 +3,7 @@ $SERVICE_NAME = "demo"
 $CLUSTER_NAME = "demo"
 $AWS_REGION = "us-east-1"
 $TASK_FAMILY = "demo-new"
+$ROLE_ARN = "arn:aws:iam::730335223740:role/ecsTaskExecutionRole"
 
 # Retrieve default subnets
 $defaultSubnets = aws ec2 describe-subnets --filters "Name=default-for-az,Values=true" --query "Subnets[*].SubnetId" --output text --region $AWS_REGION
