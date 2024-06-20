@@ -8,27 +8,6 @@ pipeline {
             }
         }
 
-        stage('Installing Angular dependencies') {
-            steps {
-                script {
-                    // Install Node.js and npm dependencies
-                    powershell '''
-                        npm install
-                        npm install @angular/cli
-                    '''
-                }
-            }
-        }
-
-        stage('Build') {
-            steps {
-                script {
-                    // Build Angular app
-                    powershell 'npm run build'
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -49,10 +28,18 @@ pipeline {
 
         stage('ECS Deploy') {
             steps {
-                powershell '''
-                    .\\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
-                    .\\ecs-auto.ps1
-                '''
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'AWS'
+                ]]) {
+                    script {
+                        // Execute deployment scripts with AWS CLI
+                        powershell '''
+                            .\\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
+                            .\\ecs-auto.ps1
+                        '''
+                    }
+                }
             }
         }
     }
