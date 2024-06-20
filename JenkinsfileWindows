@@ -1,0 +1,136 @@
+pipeline {
+    agent any
+
+    stages {
+        // stage('Cleanup WorkSpace') {
+        //     steps {
+        //         cleanWs()
+        //     }
+        // }
+
+        stage('Checkout from SCM') {
+            steps {
+                git url: 'https://github.com/anandasaisoorisetty/webappanand.git', branch: 'main'
+            }
+        }
+
+        stage('Installing Angular dependencies') {
+            steps {
+                script {
+                    // Set PATH environment variable
+                    // env.PATH = "C:\\Program Files\\nodejs;${env.PATH}"
+
+                    // Install Node.js and npm
+                    // tool 'NodeJS'
+                    powershell '''
+                        npm install
+                        npm install @angular/cli
+                        // npm install sonar-scanner --save-dev
+                        // npm install puppeteer --save-dev
+                    '''
+                }
+            }
+        }
+
+        // stage('Code Analysis') {
+        //     steps {
+        //         script {
+        //             // Perform code analysis using SonarQube
+        //             powershell './sonar_analysis.ps1'
+        //         }
+        //     }
+        // }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Build Angular app
+                    powershell 'npm run build'
+                }
+            }
+        }
+
+        // stage('Unit Testing') {
+        //     steps {
+        //         script {
+        //             // Set the path to the Chrome binary for Unit Testing
+        //             powershell '$env:CHROME_BIN="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"'
+
+        //             // Run unit tests
+        //             powershell 'npm run test -- --browsers ChromeHeadlessNoSandbox'
+        //         }
+        //     }
+        // }
+
+        // stage('Package Artifacts') {
+        //     steps {
+        //         script {
+        //             // Create deployable artifacts
+        //             powershell 'npm run package'
+        //         }
+        //     }
+        // }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image
+                    powershell "docker build -t anandasaisoorisetty/webappanand:ANAND-PROJECT-${env.BUILD_NUMBER} ."
+                }
+            }
+        }
+
+        // Uncomment the following stage if you want to include Image Scan
+        /*
+        stage('Image Scan') {
+            steps {
+                powershell '''
+                    (Get-Content image_scan.sh) -replace 'buildNumber', $env:BUILD_NUMBER | Set-Content image_scan-new.ps1
+                    ./image_scan-new.ps1
+                '''
+            }
+        }
+        */
+
+        stage('Docker Login and Push Image to Docker Hub') {
+            // when {
+            //     expression {
+            //         currentBuild.resultIsBetterOrEqualTo('SUCCESS') // Only execute if the build result is SUCCESS
+            //     }
+            // }
+            steps {
+                withCredentials([string(credentialsId: 'Docker_Hub_PWD', variable: 'Docker_Hub_PWD')]) {
+                    powershell "docker login -u anandasaisoorisetty -p ${env.Docker_Hub_PWD}"
+                }
+                powershell "docker push anandasaisoorisetty/webappanand:ANAND-PROJECT-${env.BUILD_NUMBER}"
+            }
+        }
+
+       // Uncomment the following stage if you want to include EKS Deploy
+      /*
+        stage('EKS Deploy') {
+            steps {
+                powershell '''
+                    aws eks update-kubeconfig --name webappanand-kube --region us-east-1
+                    (Get-Content deploy.yml) -replace 'buildNumber', ${env.BUILD_NUMBER} | Set-Content deploy-new.yml
+                    kubectl apply -f deploy-new.yml
+                    kubectl apply -f svc.yml
+                '''
+            }
+        }
+        */
+
+        // Uncomment the following stage if you want to include ECS Deploy
+
+        stage('ECS Deploy') {
+            steps {
+                powershell '''
+                    ./changebuildnumber.ps1 ${env.BUILD_NUMBER}
+                    ./ecs-auto.ps1
+                '''
+            }
+        }
+
+    }
+
+}
