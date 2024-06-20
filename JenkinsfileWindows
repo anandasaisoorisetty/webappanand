@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        // Set the AWS CLI path according to your installation
         AWS_CLI_PATH = 'C:\\Program Files\\Amazon\\AWSCLIV2\\'
         PATH = "${AWS_CLI_PATH};${env.PATH}"
     }
@@ -31,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('ECS Deploy') {
+        stage('Create CloudWatch Log Group') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -41,6 +42,29 @@ pipeline {
                         // Ensure AWS CLI is in PATH
                         env.PATH = "${env.AWS_CLI_PATH};${env.PATH}"
 
+                        // Create CloudWatch log group
+                        powershell '''
+                            $logGroupName = "/ecs/demo"
+                            $logGroupExists = aws logs describe-log-groups --log-group-name-prefix $logGroupName --query "logGroups[?logGroupName=='$logGroupName'].logGroupName" --output text
+                            if (-not $logGroupExists) {
+                                Write-Output "Creating CloudWatch log group: $logGroupName"
+                                aws logs create-log-group --log-group-name $logGroupName
+                            } else {
+                                Write-Output "CloudWatch log group $logGroupName already exists"
+                            }
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('ECS Deploy') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'AWS'
+                ]]) {
+                    script {
                         // Execute deployment scripts with AWS CLI
                         powershell '''
                             .\\changebuildnumber.ps1 -buildNumber $env:BUILD_NUMBER
